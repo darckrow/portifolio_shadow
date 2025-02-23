@@ -111,14 +111,14 @@ export default function About() {
                   Sobre Mim
                 </Typography>
                 <Typography variant="body1" paragraph>
-                Profissional com experiência como Assistente de TI e conhecimento em HTML, CSS, JavaScript, ReactJS e Vue.js. 
-                Destaca-se pelo trabalho em equipe, resolução de problemas e inovação, tendo implementado automação para 
-                otimização de processos.
+                Sou um profissional com experiência como Assistente de TI e conhecimento em HTML, CSS, JavaScript, ReactJS e Vue.js. 
+                Gosto de trabalhar em equipe, resolver problemas e buscar soluções inovadoras—já implementei automações para otimizar 
+                processos.
                 </Typography>
                 <Typography variant="body1">
-                Em transição para desenvolvimento backend e banco de dados, focando em Python, C# e SQL. 
-                Possui habilidades em comunicação e atendimento, sendo resiliente, flexível e criativo. 
-                Busca oportunidades para aplicar sua paixão por programação e contribuir com soluções escaláveis e eficientes.
+                Atualmente, estou em transição para a área de desenvolvimento backend e banco de dados, focando em Python, C# e SQL. 
+                Tenho boas habilidades de comunicação e atendimento, além de ser resiliente, flexível e criativo. Busco oportunidades
+                 para aplicar minha paixão por programação e contribuir com soluções escaláveis e eficientes.
                 </Typography>
               </CardContent>
             </Box>
