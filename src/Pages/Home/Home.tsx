@@ -5,6 +5,7 @@ import { fetchGithubRepos } from '../../services/github';
 import Resumo from '../../componets/Resumo/Resumo';
 import Footer from '../../componets/Footer/Footer';
 import welcomeGif from '../../assets/icon2.gif';
+import defaultProjectImage from '../../assets/logo.png';
 
 interface GithubRepo {
   id: number;
@@ -95,7 +96,7 @@ export default function Home() {
                 <CardProjetos
                   title={repo.name}
                   description={repo.description || 'No description available'}
-                  imageUrl="/src/assets/logo.png" // You might want to use a default image or fetch repo image
+                  imageUrl={defaultProjectImage}
                   githubUrl={repo.html_url}
                   demoUrl={repo.homepage}
                   technologies={[repo.language, ...(repo.topics || [])].filter(Boolean)}
