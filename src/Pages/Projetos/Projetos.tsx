@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Box, Container, Grid, Typography, CircularProgress, Button } from '@mui/material';
+import { Box, Container, Typography, CircularProgress, Button } from '@mui/material';
 import { GitHub, Launch } from '@mui/icons-material';
-import CardProjetos from '../../componets/CardProjetos/CardProjetos';
 import Footer from '../../componets/Footer/Footer';
 import { fetchGithubRepos } from '../../services/github';
 
@@ -37,8 +36,7 @@ export default function Projetos() {
   };
 
   // Função para obter a URL da imagem do projeto
-  const getProjectImage = (name: string) => {
-    // Por enquanto, vamos usar uma imagem padrão para todos os projetos
+  const getProjectImage = (_name: string) => {
     return "https://avatars.githubusercontent.com/u/32041971?v=4";
   };
 

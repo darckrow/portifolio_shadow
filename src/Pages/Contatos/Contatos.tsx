@@ -7,8 +7,6 @@ import {
   Button,
   ToggleButton,
   ToggleButtonGroup,
-  FormControl,
-  TextareaAutosize,
 } from '@mui/material';
 import { Email, WhatsApp } from '@mui/icons-material';
 import Footer from '../../componets/Footer/Footer';
@@ -24,7 +22,7 @@ export default function Contatos() {
   });
 
   const handleMethodChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newMethod: 'email' | 'whatsapp' | null,
   ) => {
     if (newMethod !== null) {

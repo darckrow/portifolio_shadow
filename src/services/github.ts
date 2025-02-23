@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-interface GithubRepo {
+export interface GithubRepo {
   id: number;
   name: string;
   description: string;
@@ -10,7 +8,7 @@ interface GithubRepo {
   language: string;
 }
 
-export async function fetchGithubRepos(username: string) {
+export async function fetchGithubRepos(username: string): Promise<GithubRepo[]> {
   try {
     const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=3`);
     if (!response.ok) {

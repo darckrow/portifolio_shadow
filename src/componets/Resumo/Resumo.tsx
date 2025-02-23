@@ -1,6 +1,6 @@
 import { Box, Card, Typography, Grid } from '@mui/material';
 
-const techLogos = {
+const techLogos: { [key: string]: string } = {
   "React": "/src/assets/tech/react.svg",
   "TypeScript": "/src/assets/tech/typescript.svg",
   "Material-UI": "/src/assets/tech/mui.svg",
