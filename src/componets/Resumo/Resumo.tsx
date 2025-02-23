@@ -1,12 +1,20 @@
 import { Box, Card, Typography, Grid } from '@mui/material';
 
+// Importando as imagens
+import reactLogo from '../../assets/tech/react.svg';
+import typescriptLogo from '../../assets/tech/typescript.svg';
+import muiLogo from '../../assets/tech/mui.svg';
+import reactRouterLogo from '../../assets/tech/react-router.svg';
+import githubLogo from '../../assets/tech/github.svg';
+import axiosLogo from '../../assets/tech/axios.png';
+
 const techLogos: { [key: string]: string } = {
-  "React": "/src/assets/tech/react.svg",
-  "TypeScript": "/src/assets/tech/typescript.svg",
-  "Material-UI": "/src/assets/tech/mui.svg",
-  "React Router": "/src/assets/tech/react-router.svg",
-  "GitHub API": "/src/assets/tech/github.svg",
-  "Axios": "/src/assets/tech/axios.png"
+  "React": reactLogo,
+  "TypeScript": typescriptLogo,
+  "Material-UI": muiLogo,
+  "React Router": reactRouterLogo,
+  "GitHub API": githubLogo,
+  "Axios": axiosLogo
 };
 
 const technologies = [

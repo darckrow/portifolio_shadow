@@ -1,19 +1,24 @@
 import { Box, Container, IconButton, Typography, Link } from '@mui/material';
 
+// Importando as imagens
+import linkedinIcon from '../../assets/social/linkedin.svg';
+import githubIcon from '../../assets/tech/github.svg';
+import emailIcon from '../../assets/social/email.svg';
+
 const socialLinks = [
   {
     name: 'LinkedIn',
-    icon: '/src/assets/social/linkedin.svg',
+    icon: linkedinIcon,
     url: 'https://www.linkedin.com/in/ramon-matheus-3344041b1/'
   },
   {
     name: 'GitHub',
-    icon: '/src/assets/tech/github.svg',
+    icon: githubIcon,
     url: 'https://github.com/darckrow'
   },
   {
     name: 'Email',
-    icon: '/src/assets/social/email.svg',
+    icon: emailIcon,
     url: 'mailto:ramonmateus30@gmail.com'
   }
 ];
