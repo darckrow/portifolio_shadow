@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { fetchGithubRepos } from '../../services/github';
 import Resumo from '../../componets/Resumo/Resumo';
 import Footer from '../../componets/Footer/Footer';
+import welcomeGif from '../../assets/icon2.gif';
 
 interface GithubRepo {
   id: number;
@@ -59,7 +60,7 @@ export default function Home() {
                   padding: '20px',
                   backgroundColor: '#111'
                 }}
-                image="/src/assets/icon2.gif"
+                image={welcomeGif}
                 alt="Portfolio"
               />
               <CardContent sx={{ 
