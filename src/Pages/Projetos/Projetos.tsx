@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Container, Typography, CircularProgress, Button } from '@mui/material';
 import { GitHub, Launch } from '@mui/icons-material';
-import Footer from '../../componets/Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 import { fetchGithubRepos } from '../../services/github';
 
 interface Repository {
@@ -36,6 +36,7 @@ export default function Projetos() {
   };
 
   // Função para obter a URL da imagem do projeto
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getProjectImage = (_name: string) => {
     return "https://avatars.githubusercontent.com/u/32041971?v=4";
   };

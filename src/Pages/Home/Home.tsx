@@ -1,9 +1,9 @@
 import { Card, CardContent, CardMedia, Typography, Box, Grid } from '@mui/material';
-import CardProjetos from '../../componets/CardProjetos/CardProjetos';
+import CardProjetos from '../../components/CardProjetos/CardProjetos';
 import { useEffect, useState } from 'react';
 import { fetchGithubRepos } from '../../services/github';
-import Resumo from '../../componets/Resumo/Resumo';
-import Footer from '../../componets/Footer/Footer';
+import Resumo from '../../components/Resumo/Resumo';
+import Footer from '../../components/Footer/Footer';
 import welcomeGif from '../../assets/icon2.gif';
 import defaultProjectImage from '../../assets/logo.png';
 

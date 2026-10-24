@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CardMedia, Typography, Grid } from '@mui/material';
-import Footer from '../../componets/Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 
 interface Experience {
   period: string;

@@ -9,7 +9,7 @@ import {
   ToggleButtonGroup,
 } from '@mui/material';
 import { Email, WhatsApp } from '@mui/icons-material';
-import Footer from '../../componets/Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 
 export default function Contatos() {
   const [contactMethod, setContactMethod] = useState<'email' | 'whatsapp'>('email');

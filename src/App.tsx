@@ -1,7 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
-import _Navbar from './componets/_NavBar/_NavBar.tsx';
+import _Navbar from './components/_NavBar/_NavBar.tsx';
 import AppRoutes from "./routes";
-import FloatingIcon from "./componets/FloatingIcon/FloatingIcon";
+import FloatingIcon from "./components/FloatingIcon/FloatingIcon";
 
 export default function App() {
   return (
