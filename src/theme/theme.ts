@@ -5,6 +5,7 @@ export const arcade = {
   surface: '#0d0d0d',
   red: '#dc2626',
   redDark: '#b91c1c',
+  redText: '#ef4444',
   yellow: '#facc15',
   text: '#ddd',
   textMuted: '#aaa',
@@ -44,6 +45,9 @@ const theme = createTheme({
     button: { fontFamily: arcade.pixelFont, textTransform: 'none' },
   },
   components: {
+    MuiButtonBase: {
+      defaultProps: { disableRipple: true },
+    },
     MuiInputLabel: {
       styleOverrides: {
         root: {

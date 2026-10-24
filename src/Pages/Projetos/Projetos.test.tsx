@@ -25,9 +25,9 @@ function repo(id: number, name: string, homepage: string | null): GithubRepo {
   }
 }
 
-function renderProjetos() {
+function renderProjetos(initialEntries: string[] = ['/projetos']) {
   return render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={initialEntries}>
       <ThemeProvider theme={theme}>
         <Projetos />
       </ThemeProvider>
@@ -38,6 +38,7 @@ function renderProjetos() {
 describe('Projetos', () => {
   beforeEach(() => {
     mockedUseGithubRepos.mockReset()
+    Element.prototype.scrollIntoView = vi.fn()
   })
 
   it('erro mostra GAME OVER e tenta de novo', async () => {
@@ -61,9 +62,40 @@ describe('Projetos', () => {
 
     await userEvent.tab()
     await userEvent.tab()
+    expect(screen.getByText('FASE 1-1 · alfa')).toBeInTheDocument()
+    await userEvent.keyboard('{Enter}')
 
-    expect(screen.getByText('FASE 1-2 · beta')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /JOGAR/ })).toHaveAttribute('href', 'https://x.dev')
+    const heading = screen.getByRole('heading', { level: 2, name: 'FASE 1-2 · beta' })
+    expect(document.activeElement).toBe(heading)
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({ block: 'start', behavior: 'smooth' })
+
+    await userEvent.tab()
+    const jogar = screen.getByRole('link', { name: 'JOGAR' })
+    expect(jogar).toHaveAttribute('href', 'https://x.dev')
+    expect(document.activeElement).toBe(jogar)
+  })
+
+  it('hover não troca a fase', async () => {
+    mockedUseGithubRepos.mockReturnValue({
+      repos: [repo(1, 'alfa', null), repo(2, 'beta', null)],
+      status: 'ok',
+      retry: vi.fn(),
+    })
+    renderProjetos()
+    await userEvent.hover(screen.getAllByTestId('stage-card')[1])
+    expect(screen.getByRole('heading', { level: 2, name: 'FASE 1-1 · alfa' })).toBeInTheDocument()
+    expect(Element.prototype.scrollIntoView).not.toHaveBeenCalled()
+  })
+
+  it('abre na fase indicada por ?fase=', () => {
+    mockedUseGithubRepos.mockReturnValue({
+      repos: [repo(11, 'alfa', null), repo(22, 'beta', null)],
+      status: 'ok',
+      retry: vi.fn(),
+    })
+    renderProjetos(['/projetos?fase=22'])
+    expect(screen.getByRole('heading', { level: 2, name: 'FASE 1-2 · beta' })).toBeInTheDocument()
+    expect(Element.prototype.scrollIntoView).not.toHaveBeenCalled()
   })
 
   it('fase selecionada é anunciada', () => {

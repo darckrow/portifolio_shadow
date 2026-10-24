@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Footer from '../../components/Footer/Footer'
@@ -13,7 +14,27 @@ import { arcade } from '../../theme/theme'
 
 export default function Projetos() {
   const { repos, status, retry } = useGithubRepos()
-  const [selectedId, setSelectedId] = useState<number | null>(null)
+  const [searchParams] = useSearchParams()
+  const [selectedId, setSelectedId] = useState<number | null>(() => {
+    const fase = searchParams.get('fase')
+    return fase ? Number(fase) : null
+  })
+  const [activations, setActivations] = useState(0)
+  const detailHeadingRef = useRef<HTMLHeadingElement>(null)
+
+  useEffect(() => {
+    if (activations === 0) return
+    const heading = detailHeadingRef.current
+    if (!heading) return
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+    heading.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' })
+    heading.focus({ preventScroll: true })
+  }, [activations])
+
+  const activate = (id: number) => {
+    setSelectedId(id)
+    setActivations((n) => n + 1)
+  }
 
   const stages = repos.map(toStage)
   const selected = stages.find((s) => s.id === selectedId) ?? stages[0]
@@ -34,7 +55,7 @@ export default function Projetos() {
 
         {status === 'error' && (
           <PixelBox sx={{ p: 4, textAlign: 'center' }}>
-            <Box sx={{ fontFamily: arcade.pixelFont, color: arcade.red, fontSize: '1.25rem', mb: 2 }}>GAME OVER</Box>
+            <Box sx={{ fontFamily: arcade.pixelFont, color: arcade.redText, fontSize: '1.25rem', mb: 2 }}>GAME OVER</Box>
             <Box sx={{ mb: 3 }}>Não consegui carregar os projetos do GitHub agora.</Box>
             <PixelButton onClick={retry}>TENTAR DE NOVO</PixelButton>
           </PixelBox>
@@ -60,11 +81,13 @@ export default function Projetos() {
                   key={stage.id}
                   stage={stage}
                   selected={stage.id === selected.id}
-                  onSelect={() => setSelectedId(stage.id)}
+                  onSelect={() => activate(stage.id)}
                 />
               ))}
             </Box>
-            <StageDetail stage={selected} />
+            <Box aria-live="polite">
+              <StageDetail stage={selected} headingRef={detailHeadingRef} />
+            </Box>
           </>
         )}
 

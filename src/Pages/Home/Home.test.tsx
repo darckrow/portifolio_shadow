@@ -54,7 +54,7 @@ describe('Home', () => {
     })
     renderHome()
     expect(screen.getAllByTestId('stage-card')).toHaveLength(3)
-    screen.getAllByTestId('stage-card').forEach((card) => expect(card).toHaveAttribute('href', '/projetos'))
+    screen.getAllByTestId('stage-card').forEach((card) => expect(card.getAttribute('href')).toMatch(/^\/projetos\?fase=\d+$/))
   })
 
   it('erro não quebra a home', () => {

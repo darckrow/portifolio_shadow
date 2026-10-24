@@ -1,3 +1,4 @@
+import type { Ref } from 'react'
 import Box from '@mui/material/Box'
 import PixelBox from '../arcade/PixelBox'
 import PixelButton from '../arcade/PixelButton'
@@ -6,12 +7,26 @@ import type { Stage } from '../../lib/stages'
 
 interface StageDetailProps {
   stage: Stage
+  headingRef?: Ref<HTMLHeadingElement>
 }
 
-export default function StageDetail({ stage }: StageDetailProps) {
+export default function StageDetail({ stage, headingRef }: StageDetailProps) {
   return (
     <PixelBox sx={{ p: 3, mt: 4 }}>
-      <Box component="h2" sx={{ m: 0, mb: 2, fontFamily: arcade.pixelFont, fontSize: '1rem', color: arcade.yellow }}>
+      <Box
+        component="h2"
+        ref={headingRef}
+        tabIndex={-1}
+        sx={{
+          m: 0,
+          mb: 2,
+          fontFamily: arcade.pixelFont,
+          fontSize: '1rem',
+          color: arcade.yellow,
+          overflowWrap: 'anywhere',
+          scrollMarginTop: 16,
+        }}
+      >
         {`${stage.code} · ${stage.name}`}
       </Box>
       <Box sx={{ color: arcade.text, mb: 2 }}>{stage.description}</Box>
@@ -31,7 +46,7 @@ export default function StageDetail({ stage }: StageDetailProps) {
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
         {stage.demoUrl && (
           <PixelButton variant="primary" href={stage.demoUrl}>
-            ▶ JOGAR
+            <span aria-hidden="true">▶ </span>JOGAR
           </PixelButton>
         )}
         <PixelButton variant="secondary" href={stage.codeUrl}>

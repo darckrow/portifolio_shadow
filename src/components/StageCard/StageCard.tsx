@@ -27,7 +27,16 @@ export default function StageCard({ stage, selected = false, onSelect, to }: Sta
     border: `3px solid ${selected ? arcade.yellow : arcade.border}`,
     borderRadius: 0,
     boxShadow: `4px 4px 0 ${arcade.redDark}`,
+    transition: 'transform 0.1s, box-shadow 0.1s',
+    '&:hover, &:focus-visible': {
+      transform: 'translate(-2px, -2px)',
+      boxShadow: `6px 6px 0 ${arcade.redDark}`,
+    },
     '&:focus-visible': { outline: `3px solid ${arcade.yellow}`, outlineOffset: '2px' },
+    '@media (prefers-reduced-motion: reduce)': {
+      transition: 'none',
+      '&:hover, &:focus-visible': { transform: 'none' },
+    },
   } as const
 
   const content = (
@@ -39,10 +48,10 @@ export default function StageCard({ stage, selected = false, onSelect, to }: Sta
           color: selected ? arcade.yellow : arcade.textMuted,
         }}
       >
-        {selected ? '▶ ' : ''}
+        {selected && <span aria-hidden="true">▶ </span>}
         {stage.code}
       </Box>
-      <Box sx={{ fontFamily: arcade.pixelFont, fontSize: '0.75rem', color: '#fff', wordBreak: 'break-word' }}>
+      <Box sx={{ fontFamily: arcade.pixelFont, fontSize: '0.75rem', color: '#fff', overflowWrap: 'anywhere' }}>
         {stage.name}
       </Box>
       <Box
@@ -75,8 +84,6 @@ export default function StageCard({ stage, selected = false, onSelect, to }: Sta
       data-testid="stage-card"
       aria-pressed={selected}
       onClick={onSelect}
-      onFocus={onSelect}
-      onMouseEnter={onSelect}
       sx={sx}
     >
       {content}

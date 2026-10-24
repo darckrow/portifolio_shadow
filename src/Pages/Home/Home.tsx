@@ -12,7 +12,7 @@ import sprite from '../../assets/flutuante.gif'
 const sectionTitleSx = {
   fontFamily: arcade.pixelFont,
   fontSize: '1rem',
-  color: arcade.red,
+  color: arcade.redText,
   textAlign: 'center',
   mb: 2,
 } as const
@@ -39,7 +39,7 @@ export default function Home() {
             className="pixelated"
             src={sprite}
             alt="Sprite do Shadow"
-            style={{ width: 170, height: 'auto', filter: 'drop-shadow(0 0 18px #dc262688)' }}
+            style={{ width: 128, height: 'auto', filter: 'drop-shadow(0 0 18px #dc262688)' }}
           />
           <Box>
             <Box
@@ -77,7 +77,7 @@ export default function Home() {
                 '&:hover': { textDecoration: 'underline' },
               }}
             >
-              PRESS START ▶ PROJETOS
+              PRESS START <span aria-hidden="true">▶</span> PROJETOS
             </Box>
           </Box>
         </Box>
@@ -107,7 +107,7 @@ export default function Home() {
               }}
             >
               {stages.map((stage) => (
-                <StageCard key={stage.id} stage={stage} to="/projetos" />
+                <StageCard key={stage.id} stage={stage} to={`/projetos?fase=${stage.id}`} />
               ))}
             </Box>
           )}
