@@ -8,11 +8,25 @@ import icon2 from '../../assets/icon2.gif'
 import { characterClass, summary, stats, experiences, certificates, education } from '../../data/profile'
 
 const sectionLabel = {
+  m: 0,
+  mb: 2,
   fontFamily: arcade.pixelFont,
   fontSize: '0.8rem',
+  fontWeight: 400,
   color: arcade.yellow,
-  mb: 2,
 }
+
+const visuallyHidden = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  p: 0,
+  m: '-1px',
+  overflow: 'hidden',
+  clip: 'rect(0 0 0 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+} as const
 
 const twoColumns = { display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }
 
@@ -38,7 +52,7 @@ export default function About() {
               src={icon2}
               alt="Sprite do Shadow"
               className="pixelated"
-              sx={{ width: 128, height: 128, objectFit: 'contain' }}
+              sx={{ width: 200, height: 200, maxWidth: '100%', objectFit: 'contain' }}
             />
             <Box sx={{ fontFamily: arcade.pixelFont, fontSize: '1rem', color: arcade.text }}>RAMON</Box>
             <Box sx={{ fontSize: '0.85rem', color: arcade.textMuted }}>Classe: {characterClass.current}</Box>
@@ -46,7 +60,9 @@ export default function About() {
           </PixelBox>
 
           <PixelBox sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-            <Box sx={sectionLabel}>ATRIBUTOS</Box>
+            <Box component="h2" sx={sectionLabel}>
+              ATRIBUTOS
+            </Box>
             {stats.map((stat) => (
               <StatBar key={stat.label} label={stat.label} value={stat.value} />
             ))}
@@ -57,7 +73,9 @@ export default function About() {
         </Box>
 
         <Box component="section">
-          <Box sx={sectionLabel}>MISSÕES CONCLUÍDAS</Box>
+          <Box component="h2" sx={sectionLabel}>
+            MISSÕES CONCLUÍDAS
+          </Box>
           <Box sx={twoColumns}>
             {experiences.map((exp) => (
               <PixelBox key={`${exp.period}-${exp.role}`} sx={{ p: 3 }}>
@@ -74,20 +92,25 @@ export default function About() {
         </Box>
 
         <Box component="section">
-          <Box sx={sectionLabel}>
+          <Box component="h2" sx={sectionLabel}>
             CONQUISTAS {certificates.length}/{certificates.length}
           </Box>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+          <Box component="ul" sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, listStyle: 'none', m: 0, p: 0 }}>
             {certificates.map((cert) => (
-              <Box key={cert} sx={{ ...badgeBase, border: `2px solid ${arcade.yellow}`, color: arcade.text }}>
-                ★ {cert}
+              <Box
+                component="li"
+                key={cert}
+                sx={{ ...badgeBase, border: `2px solid ${arcade.yellow}`, color: arcade.text }}
+              >
+                <span aria-hidden="true">★ </span>
+                {cert}
               </Box>
             ))}
-            <Box
-              aria-label={education.ariaLabel}
-              sx={{ ...badgeBase, border: '2px solid #444', color: arcade.textDim }}
-            >
-              🔒 {education.label}
+            <Box component="li" sx={{ ...badgeBase, border: '2px solid #444', color: arcade.textDim }}>
+              <span aria-hidden="true">🔒 {education.label}</span>
+              <Box component="span" sx={visuallyHidden}>
+                {education.ariaLabel}
+              </Box>
             </Box>
           </Box>
         </Box>

@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from '../../theme/theme'
 import About from './About'
+import { certificates, education } from '../../data/profile'
 
 function renderAbout() {
   return render(
@@ -30,9 +31,17 @@ describe('About', () => {
 
   it('ADS bloqueada é acessível', () => {
     renderAbout()
-    expect(
-      screen.getByLabelText(/Conquista bloqueada: Análise e Desenvolvimento de Sistemas/),
-    ).toBeInTheDocument()
+    const locked = screen.getByText(education.ariaLabel)
+    expect(locked.closest('li')).not.toBeNull()
+    expect(screen.getByText(education.label, { exact: false }).closest('[aria-hidden="true"]')).not.toBeNull()
+    expect(screen.getAllByRole('listitem')).toHaveLength(certificates.length + 1)
+  })
+
+  it('rótulos de seção são títulos', () => {
+    renderAbout()
+    for (const name of ['ATRIBUTOS', 'MISSÕES CONCLUÍDAS', 'CONQUISTAS 13/13']) {
+      expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument()
+    }
   })
 
   it('atributos', () => {
