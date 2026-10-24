@@ -2,17 +2,7 @@ import { useEffect, useState } from 'react';
 import { Box, Container, Typography, CircularProgress, Button } from '@mui/material';
 import { GitHub, Launch } from '@mui/icons-material';
 import Footer from '../../components/Footer/Footer';
-import { fetchGithubRepos } from '../../services/github';
-
-interface Repository {
-  id: number;
-  name: string;
-  description: string;
-  html_url: string;
-  homepage: string;
-  topics: string[];
-  language: string;
-}
+import { fetchGithubRepos, type GithubRepo as Repository } from '../../services/github';
 
 export default function Projetos() {
   const [projects, setProjects] = useState<Repository[]>([]);
@@ -25,7 +15,7 @@ export default function Projetos() {
 
   const fetchProjects = async () => {
     try {
-      const data = await fetchGithubRepos('darckrow');
+      const data = await fetchGithubRepos('darckrow', 3);
       setProjects(data);
     } catch (err) {
       setError('Erro ao carregar projetos');

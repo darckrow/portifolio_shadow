@@ -1,29 +1,23 @@
 import { Card, CardContent, CardMedia, Typography, Box, Grid } from '@mui/material';
 import CardProjetos from '../../components/CardProjetos/CardProjetos';
 import { useEffect, useState } from 'react';
-import { fetchGithubRepos } from '../../services/github';
+import { fetchGithubRepos, type GithubRepo } from '../../services/github';
 import Resumo from '../../components/Resumo/Resumo';
 import Footer from '../../components/Footer/Footer';
 import welcomeGif from '../../assets/icon2.gif';
 import defaultProjectImage from '../../assets/logo.png';
-
-interface GithubRepo {
-  id: number;
-  name: string;
-  description: string;
-  html_url: string;
-  homepage: string;
-  topics: string[];
-  language: string;
-}
 
 export default function Home() {
   const [repos, setRepos] = useState<GithubRepo[]>([]);
 
   useEffect(() => {
     const loadRepos = async () => {
-      const githubRepos = await fetchGithubRepos('darckrow');
-      setRepos(githubRepos);
+      try {
+        const githubRepos = await fetchGithubRepos('darckrow', 3);
+        setRepos(githubRepos);
+      } catch (error) {
+        console.error('Error fetching repos:', error);
+      }
     };
 
     loadRepos();
@@ -98,8 +92,8 @@ export default function Home() {
                   description={repo.description || 'No description available'}
                   imageUrl={defaultProjectImage}
                   githubUrl={repo.html_url}
-                  demoUrl={repo.homepage}
-                  technologies={[repo.language, ...(repo.topics || [])].filter(Boolean)}
+                  demoUrl={repo.homepage ?? undefined}
+                  technologies={[repo.language, ...(repo.topics || [])].filter((t): t is string => Boolean(t))}
                 />
               </Grid>
             ))}
