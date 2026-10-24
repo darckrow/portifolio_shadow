@@ -1,106 +1,119 @@
-import { Card, CardContent, CardMedia, Typography, Box, Grid } from '@mui/material';
-import CardProjetos from '../../components/CardProjetos/CardProjetos';
-import { useEffect, useState } from 'react';
-import { fetchGithubRepos, type GithubRepo } from '../../services/github';
-import Resumo from '../../components/Resumo/Resumo';
-import Footer from '../../components/Footer/Footer';
-import welcomeGif from '../../assets/icon2.gif';
-import defaultProjectImage from '../../assets/logo.png';
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Footer from '../../components/Footer/Footer'
+import { Link } from 'react-router-dom'
+import StageCard from '../../components/StageCard/StageCard'
+import TechInventory from '../../components/TechInventory/TechInventory'
+import { useGithubRepos } from '../../services/github'
+import { toStage } from '../../lib/stages'
+import { arcade } from '../../theme/theme'
+import sprite from '../../assets/flutuante.gif'
+
+const sectionTitleSx = {
+  fontFamily: arcade.pixelFont,
+  fontSize: '1rem',
+  color: arcade.red,
+  textAlign: 'center',
+  mb: 2,
+} as const
 
 export default function Home() {
-  const [repos, setRepos] = useState<GithubRepo[]>([]);
-
-  useEffect(() => {
-    const loadRepos = async () => {
-      try {
-        const githubRepos = await fetchGithubRepos('darckrow', 3);
-        setRepos(githubRepos);
-      } catch (error) {
-        console.error('Error fetching repos:', error);
-      }
-    };
-
-    loadRepos();
-  }, []);
+  const { repos, status } = useGithubRepos()
+  const stages = repos.slice(0, 3).map(toStage)
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
-      <Box sx={{ flex: 1 }}>
-        <Box id='welcome' sx={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          padding: '20px',
-        }}>
-          <Card sx={{ 
-            width: '100%',
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Container maxWidth="lg" sx={{ flex: 1, py: 4 }}>
+        <Box
+          sx={{
             display: 'flex',
-            flexDirection: 'column',
-            borderRadius: '15px',
-            boxShadow: '0 8px 16px rgba(255,0,0,0.1)',
-            backgroundColor: '#111',
-            color: 'white',
-            border: '3px solid black'
-          }}>
-            <Box sx={{ display: 'flex' }}>
-              <CardMedia
-                component="img"
-                sx={{ 
-                  width: '200px',
-                  objectFit: 'contain',
-                  padding: '20px',
-                  backgroundColor: '#111'
-                }}
-                image={welcomeGif}
-                alt="Portfolio"
-              />
-              <CardContent sx={{ 
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                padding: '40px'
-              }}>
-                <Typography gutterBottom variant="h4" component="div" color="error">
-                  Bem-vindo ao Meu Portfólio
-                </Typography>
-                <Typography variant="body1" sx={{ color: '#fff' }} paragraph>
-                  Desenvolvedor Full Stack apaixonado por criar soluções inovadoras e experiências digitais únicas.
-                  Especializado em React, TypeScript, e desenvolvimento web moderno.
-                </Typography>
-              </CardContent>
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: { xs: 3, md: 6 },
+            textAlign: { xs: 'center', md: 'left' },
+            mb: 6,
+          }}
+        >
+          <img
+            className="pixelated"
+            src={sprite}
+            alt="Sprite do Shadow"
+            style={{ width: 170, height: 'auto', filter: 'drop-shadow(0 0 18px #dc262688)' }}
+          />
+          <Box>
+            <Box
+              component="h1"
+              sx={{
+                m: 0,
+                mb: 2,
+                fontFamily: arcade.pixelFont,
+                fontSize: { xs: '1.5rem', md: '2.25rem' },
+                color: '#fff',
+                textShadow: `3px 3px 0 ${arcade.redDark}`,
+              }}
+            >
+              RAMON MATHEUS
             </Box>
-            <Box sx={{ px: 4, pb: 4 }}>
-              <Resumo />
+            <Box sx={{ color: arcade.text, mb: 0.5 }}>&gt; Dev Front-end · React · TypeScript</Box>
+            <Box sx={{ color: arcade.textMuted, mb: 2 }}>&gt; Próxima fase: Python · C# · SQL</Box>
+            <Box aria-hidden="true" sx={{ mb: 3, maxWidth: 320, mx: { xs: 'auto', md: 0 } }}>
+              <Box sx={{ fontFamily: arcade.pixelFont, fontSize: '0.65rem', color: arcade.textMuted, mb: 0.5 }}>
+                XP — NÍVEL 03
+              </Box>
+              <Box sx={{ height: 12, border: `3px solid ${arcade.border}`, backgroundColor: arcade.bg }}>
+                <Box sx={{ width: '72%', height: '100%', backgroundColor: arcade.red }} />
+              </Box>
             </Box>
-          </Card>
+            <Box
+              component={Link}
+              to="/projetos"
+              className="blink"
+              sx={{
+                fontFamily: arcade.pixelFont,
+                fontSize: '0.85rem',
+                color: arcade.yellow,
+                textDecoration: 'none',
+                '&:hover': { textDecoration: 'underline' },
+              }}
+            >
+              PRESS START ▶ PROJETOS
+            </Box>
+          </Box>
         </Box>
 
-        <Box id='cardProjetos' sx={{ padding: '20px' }}>
-          <Typography variant="h4" color="error" sx={{ mb: 4, textAlign: 'center' }}>
-            Meus Projetos
-          </Typography>
-          <Grid container spacing={3} justifyContent="center">
-            {repos.map(repo => (
-              <Grid item xs={12} sm={6} md={4} key={repo.id}>
-                <CardProjetos
-                  title={repo.name}
-                  description={repo.description || 'No description available'}
-                  imageUrl={defaultProjectImage}
-                  githubUrl={repo.html_url}
-                  demoUrl={repo.homepage ?? undefined}
-                  technologies={[repo.language, ...(repo.topics || [])].filter((t): t is string => Boolean(t))}
-                />
-              </Grid>
-            ))}
-          </Grid>
+        <Box sx={{ mb: 6 }}>
+          <TechInventory />
         </Box>
-      </Box>
+
+        <Box component="section" aria-labelledby="fases-recentes-titulo">
+          <Box id="fases-recentes-titulo" component="h2" sx={sectionTitleSx}>
+            FASES RECENTES
+          </Box>
+          {status === 'loading' && (
+            <Box className="blink" sx={{ textAlign: 'center', fontFamily: arcade.pixelFont, color: arcade.yellow }}>
+              CARREGANDO...
+            </Box>
+          )}
+          {status === 'error' && (
+            <Box sx={{ textAlign: 'center', color: arcade.textMuted }}>Fases indisponíveis no momento.</Box>
+          )}
+          {status === 'ok' && (
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+                gap: 3,
+              }}
+            >
+              {stages.map((stage) => (
+                <StageCard key={stage.id} stage={stage} to="/projetos" />
+              ))}
+            </Box>
+          )}
+        </Box>
+      </Container>
       <Footer />
     </Box>
-  );
+  )
 }
