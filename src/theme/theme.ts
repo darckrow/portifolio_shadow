@@ -43,6 +43,28 @@ const theme = createTheme({
     body2: { fontFamily: arcade.bodyFont },
     button: { fontFamily: arcade.pixelFont, textTransform: 'none' },
   },
+  components: {
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontFamily: arcade.bodyFont,
+          color: arcade.textMuted,
+          '&.Mui-focused': { color: arcade.yellow },
+        },
+      },
+    },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          fontFamily: arcade.bodyFont,
+          color: arcade.text,
+          '&::before': { borderBottom: '2px dashed #555' },
+          '&:hover:not(.Mui-disabled, .Mui-error)::before': { borderBottom: `2px dashed ${arcade.textDim}` },
+          '&::after': { borderBottom: `2px solid ${arcade.yellow}` },
+        },
+      },
+    },
+  },
 })
 
 export default theme
