@@ -86,7 +86,7 @@ export default function Contatos() {
                   color: active ? arcade.yellow : arcade.textMuted,
                 }}
               >
-                {active ? '▶ ' : ''}
+                {active && <span aria-hidden="true">▶ </span>}
                 {label}
               </Box>
             )
@@ -106,8 +106,7 @@ export default function Contatos() {
               sx={{
                 border: `3px solid ${arcade.border}`,
                 p: 1,
-                justifySelf: { xs: 'center', sm: 'stretch' },
-                maxWidth: 160,
+                justifySelf: 'center',
                 lineHeight: 0,
               }}
             >
@@ -116,7 +115,7 @@ export default function Contatos() {
                 src={flutuante}
                 alt="Shadow flutuando"
                 className="pixelated"
-                sx={{ width: '100%', imageRendering: 'pixelated' }}
+                sx={{ width: 128, height: 'auto', imageRendering: 'pixelated' }}
               />
             </Box>
 
@@ -185,7 +184,8 @@ export default function Contatos() {
               />
 
               <PixelButton variant="primary" type="submit">
-                {method === 'email' ? 'ENVIAR ▶' : 'ENVIAR NO WHATSAPP ▶'}
+                {method === 'email' ? 'ENVIAR' : 'ENVIAR NO WHATSAPP'}
+                <span aria-hidden="true">▶</span>
               </PixelButton>
             </Box>
           </Box>

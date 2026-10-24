@@ -27,7 +27,7 @@ export default function TechInventory() {
       <Box
         id="inventario-titulo"
         component="h2"
-        sx={{ fontFamily: arcade.pixelFont, fontSize: '1rem', color: arcade.red, textAlign: 'center', mb: 2 }}
+        sx={{ fontFamily: arcade.pixelFont, fontSize: '1rem', color: arcade.redText, textAlign: 'center', mb: 2 }}
       >
         INVENTÁRIO
       </Box>
@@ -63,8 +63,13 @@ export default function TechInventory() {
                   <img
                     className="pixelated"
                     src={techLogos[tech]}
-                    alt={`${tech} logo`}
-                    style={{ width: 32, height: 32, objectFit: 'contain' }}
+                    alt=""
+                    style={{
+                      width: 32,
+                      height: 32,
+                      objectFit: 'contain',
+                      filter: tech === 'GitHub API' ? 'invert(1)' : undefined,
+                    }}
                   />
                   <Box sx={{ fontSize: '0.65rem', lineHeight: 1.2, wordBreak: 'break-word' }}>{tech}</Box>
                 </Box>

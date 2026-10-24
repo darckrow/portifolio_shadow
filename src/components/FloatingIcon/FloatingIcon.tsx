@@ -23,6 +23,7 @@ export default function FloatingIcon() {
         rel="noopener noreferrer"
         sx={{
           position: 'fixed',
+          display: { xs: 'none', sm: 'block' },
           bottom: { xs: '10px', sm: '20px' },
           right: { xs: '10px', sm: '20px' },
           width: { xs: '80px', sm: '100px' },

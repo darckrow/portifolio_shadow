@@ -23,7 +23,7 @@ export default function NavBar() {
     fontSize: '10px',
     color: active ? arcade.yellow : arcade.textDim,
     textDecoration: 'none',
-    '&:hover': { color: arcade.red },
+    '&:hover': { color: arcade.redText },
   })
 
   return (
@@ -45,7 +45,6 @@ export default function NavBar() {
         component="img"
         src={logo}
         alt="Logo Ramon Matheus"
-        className="pixelated"
         sx={{ height: '36px', width: 'auto' }}
       />
 
@@ -60,7 +59,8 @@ export default function NavBar() {
               aria-current={active ? 'page' : undefined}
               sx={linkSx(active)}
             >
-              {active ? `▶ ${label}` : label}
+              {active && <span aria-hidden="true">▶ </span>}
+              {label}
             </Box>
           )
         })}
@@ -115,7 +115,8 @@ export default function NavBar() {
                       onClick={() => setOpen(false)}
                       sx={[linkSx(active), { fontSize: '12px', display: 'block' }]}
                     >
-                      {active ? `▶ ${label}` : label}
+                      {active && <span aria-hidden="true">▶ </span>}
+                      {label}
                     </Box>
                   </li>
                 )
