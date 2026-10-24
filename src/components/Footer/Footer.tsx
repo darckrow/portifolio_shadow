@@ -1,6 +1,6 @@
-import { Box, Container, IconButton, Typography, Link } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import { arcade } from '../../theme/theme';
 
-// Importando as imagens
 import linkedinIcon from '../../assets/social/linkedin.svg';
 import githubIcon from '../../assets/tech/github.svg';
 import emailIcon from '../../assets/social/email.svg';
@@ -30,71 +30,51 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: '#111',
-        color: 'white',
-        py: 6,
+        backgroundColor: arcade.bg,
+        borderTop: `3px solid ${arcade.redDark}`,
+        color: arcade.text,
+        py: 5,
         mt: 'auto'
       }}
     >
       <Container maxWidth="lg">
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 3
-          }}
-        >
-          {/* Social Links */}
-          <Box
-            sx={{
-              display: 'flex',
-              gap: 2,
-              justifyContent: 'center'
-            }}
-          >
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
             {socialLinks.map((social) => (
-              <IconButton
+              <Box
                 key={social.name}
-                component={Link}
+                component="a"
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={social.name}
                 sx={{
-                  backgroundColor: '#333',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    backgroundColor: '#ff0000',
-                    transform: 'translateY(-3px)'
-                  }
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 48,
+                  height: 48,
+                  backgroundColor: arcade.surface,
+                  border: `3px solid ${arcade.border}`,
+                  borderRadius: 0,
+                  '&:hover': { borderColor: arcade.red }
                 }}
               >
                 <img
                   src={social.icon}
-                  alt={`${social.name} icon`}
-                  style={{
-                    width: '24px',
-                    height: '24px',
-                    filter: 'brightness(0) invert(1)'
-                  }}
+                  alt=""
+                  style={{ width: '24px', height: '24px', filter: 'brightness(0) invert(1)' }}
                 />
-              </IconButton>
+              </Box>
             ))}
           </Box>
 
-          {/* Contact Info */}
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="body1" color="white" gutterBottom>
-              Vamos trabalhar juntos?
-            </Typography>
-            <Typography variant="body2" color="gray">
-              Entre em contato através das redes sociais ou email
-            </Typography>
-          </Box>
+          <Typography sx={{ fontFamily: arcade.pixelFont, fontSize: '10px', color: arcade.text }}>
+            Vamos trabalhar juntos?
+          </Typography>
 
-          {/* Copyright */}
-          <Typography variant="body2" color="gray">
-            {currentYear} Ramon Matheus. Todos os direitos reservados.
+          <Typography sx={{ fontFamily: arcade.bodyFont, fontSize: '0.8rem', color: arcade.textMuted }}>
+            © {currentYear} Ramon Matheus
           </Typography>
         </Box>
       </Container>

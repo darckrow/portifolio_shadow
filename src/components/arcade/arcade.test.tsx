@@ -1,13 +1,11 @@
-import { describe, it, expect, afterEach } from 'vitest'
-import { render, screen, cleanup } from '@testing-library/react'
+import { describe, it, expect } from 'vitest'
+import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import PixelButton from './PixelButton'
 import ScreenTitle from './ScreenTitle'
 import StatBar from './StatBar'
 
 describe('primitivas arcade', () => {
-  afterEach(cleanup)
-
   it('StatBar limita o valor', () => {
     const { unmount } = render(<StatBar label="Backend" value={140} />)
     expect(screen.getByRole('meter', { name: 'Backend' })).toHaveAttribute('aria-valuenow', '100')
