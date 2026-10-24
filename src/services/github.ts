@@ -53,8 +53,8 @@ export function useGithubRepos(): { repos: GithubRepo[]; status: Status; retry: 
         setStatus('ok');
       },
       () => {
-        if (!active) return;
         if (cache === request) cache = null;
+        if (!active) return;
         setStatus('error');
       },
     );

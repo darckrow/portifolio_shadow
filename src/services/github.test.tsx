@@ -69,4 +69,17 @@ describe('github service', () => {
     await waitFor(() => expect(screen.getByTestId('a')).toHaveTextContent('ok:1'));
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
+  it('descarta a falha em cache mesmo após desmontar', async () => {
+    let rejectFirst: (e: Error) => void = () => {};
+    fetchMock.mockReturnValueOnce(new Promise((_, reject) => { rejectFirst = reject; }));
+    const first = render(<Probe id="a" />);
+    first.unmount();
+    rejectFirst(new Error('rede'));
+    await new Promise((r) => setTimeout(r, 0));
+
+    fetchMock.mockResolvedValue({ ok: true, json: async () => [repo] });
+    render(<Probe id="a" />);
+    expect(await screen.findByText('ok:1')).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
 });
