@@ -60,8 +60,14 @@ describe('Projetos', () => {
     expect(screen.getByText('FASE 1-1 · alfa')).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /JOGAR/ })).not.toBeInTheDocument()
 
+    // o chefe vem antes da grade: bloco de SQL rolável e link VAMOS CONVERSAR
+    await userEvent.tab()
+    expect(screen.getByLabelText(/consulta SQL/)).toHaveFocus()
+    await userEvent.tab()
+    expect(screen.getByRole('link', { name: 'VAMOS CONVERSAR' })).toHaveFocus()
     await userEvent.tab()
     await userEvent.tab()
+    expect(screen.getAllByTestId('stage-card')[1]).toHaveFocus()
     expect(screen.getByText('FASE 1-1 · alfa')).toBeInTheDocument()
     await userEvent.keyboard('{Enter}')
 
@@ -94,7 +100,19 @@ describe('Projetos', () => {
       retry: vi.fn(),
     })
     renderProjetos(['/projetos?fase=22'])
-    expect(screen.getByRole('heading', { level: 2, name: 'FASE 1-2 · beta' })).toBeInTheDocument()
+    const heading = screen.getByRole('heading', { level: 2, name: 'FASE 1-2 · beta' })
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledTimes(1)
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({ block: 'start', behavior: 'smooth' })
+    expect(document.activeElement).toBe(heading)
+  })
+
+  it('sem ?fase= não rola ao carregar', () => {
+    mockedUseGithubRepos.mockReturnValue({
+      repos: [repo(11, 'alfa', null), repo(22, 'beta', null)],
+      status: 'ok',
+      retry: vi.fn(),
+    })
+    renderProjetos()
     expect(Element.prototype.scrollIntoView).not.toHaveBeenCalled()
   })
 
@@ -108,5 +126,24 @@ describe('Projetos', () => {
     const cards = screen.getAllByTestId('stage-card')
     expect(cards[0]).toHaveAttribute('aria-pressed', 'true')
     expect(cards[1]).toHaveAttribute('aria-pressed', 'false')
+  })
+
+  it('chefe aparece mesmo com GAME OVER', () => {
+    mockedUseGithubRepos.mockReturnValue({ repos: [], status: 'error', retry: vi.fn() })
+    renderProjetos()
+    expect(screen.getByText('GAME OVER')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'PAINEL DE GESTÃO MODULAR' })).toBeInTheDocument()
+  })
+
+  it('chefe vem antes das fases', () => {
+    mockedUseGithubRepos.mockReturnValue({
+      repos: [repo(1, 'alfa', null)],
+      status: 'ok',
+      retry: vi.fn(),
+    })
+    renderProjetos()
+    const boss = screen.getByRole('heading', { name: 'PAINEL DE GESTÃO MODULAR' })
+    const first = screen.getAllByTestId('stage-card')[0]
+    expect(boss.compareDocumentPosition(first) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })
 })

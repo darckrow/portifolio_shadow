@@ -17,16 +17,33 @@ function renderAbout() {
 }
 
 describe('About', () => {
-  it('mostra as 4 missões', () => {
+  it('mostra as 5 missões', () => {
     renderAbout()
     expect(screen.getByText('TECHCERT', { exact: false })).toBeInTheDocument()
-    expect(screen.getAllByText(/ZAK/)).toHaveLength(2)
+    expect(screen.getAllByText(/ZAK/)).toHaveLength(3)
     expect(screen.getByText(/Desenvolvedor Freelancer/)).toBeInTheDocument()
   })
 
-  it('mostra 13 conquistas', () => {
+  it('missão atual é a de analista', () => {
     renderAbout()
-    expect(screen.getByText('CONQUISTAS 13/13')).toBeInTheDocument()
+    const first = screen.getAllByText(/ — /)[0].closest('div')!.parentElement!
+    expect(first).toHaveTextContent('SET 2025 — ATUAL')
+    expect(first).toHaveTextContent('Analista de Desenvolvimento de Sistemas')
+  })
+
+  it('TECHCERT encerrada', () => {
+    renderAbout()
+    expect(screen.getByText('NOV 2024 — AGO 2025')).toBeInTheDocument()
+  })
+
+  it('classe de analista', () => {
+    renderAbout()
+    expect(screen.getByText('Classe: Analista de Dados')).toBeInTheDocument()
+  })
+
+  it('mostra 15 conquistas', () => {
+    renderAbout()
+    expect(screen.getByText('CONQUISTAS 15/15')).toBeInTheDocument()
   })
 
   it('ADS bloqueada é acessível', () => {
@@ -39,7 +56,7 @@ describe('About', () => {
 
   it('rótulos de seção são títulos', () => {
     renderAbout()
-    for (const name of ['ATRIBUTOS', 'MISSÕES CONCLUÍDAS', 'CONQUISTAS 13/13']) {
+    for (const name of ['ATRIBUTOS', 'MISSÕES CONCLUÍDAS', 'CONQUISTAS 15/15']) {
       expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument()
     }
   })

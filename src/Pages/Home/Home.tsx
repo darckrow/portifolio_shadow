@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Footer from '../../components/Footer/Footer'
 import { Link } from 'react-router-dom'
+import BossStage from '../../components/BossStage/BossStage'
 import StageCard from '../../components/StageCard/StageCard'
 import TechInventory from '../../components/TechInventory/TechInventory'
 import { useGithubRepos } from '../../services/github'
@@ -19,7 +20,7 @@ const sectionTitleSx = {
 
 export default function Home() {
   const { repos, status } = useGithubRepos()
-  const stages = repos.slice(0, 3).map(toStage)
+  const stages = repos.slice(0, 2).map(toStage)
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -55,19 +56,19 @@ export default function Home() {
             >
               RAMON MATHEUS
             </Box>
-            <Box sx={{ color: arcade.text, mb: 0.5 }}>&gt; Dev Front-end · React · TypeScript</Box>
-            <Box sx={{ color: arcade.textMuted, mb: 2 }}>&gt; Próxima fase: Python · C# · SQL</Box>
-            <Box aria-hidden="true" sx={{ mb: 3, maxWidth: 320, mx: { xs: 'auto', md: 0 } }}>
+            <Box sx={{ color: arcade.text, mb: 0.5 }}>&gt; Analista de Dados & Sistemas · SQL</Box>
+            <Box sx={{ color: arcade.textMuted, mb: 2 }}>&gt; SQL Server · PostgreSQL · Node.js · Vue · React</Box>
+            <Box aria-hidden="true" sx={{ mb: 3, maxWidth: { xs: 320, md: 400 }, mx: { xs: 'auto', md: 0 } }}>
               <Box sx={{ fontFamily: arcade.pixelFont, fontSize: '0.65rem', color: arcade.textMuted, mb: 0.5 }}>
-                XP — NÍVEL 03
+                XP — NÍVEL 04 · CLASSE: ANALISTA
               </Box>
               <Box sx={{ height: 12, border: `3px solid ${arcade.border}`, backgroundColor: arcade.bg }}>
-                <Box sx={{ width: '72%', height: '100%', backgroundColor: arcade.red }} />
+                <Box sx={{ width: '82%', height: '100%', backgroundColor: arcade.red }} />
               </Box>
             </Box>
             <Box
               component={Link}
-              to="/projetos"
+              to="/projetos#chefe"
               className="blink"
               sx={{
                 fontFamily: arcade.pixelFont,
@@ -77,7 +78,7 @@ export default function Home() {
                 '&:hover': { textDecoration: 'underline' },
               }}
             >
-              PRESS START <span aria-hidden="true">▶</span> PROJETOS
+              PRESS START <span aria-hidden="true">▶</span> CHEFE FINAL
             </Box>
           </Box>
         </Box>
@@ -90,26 +91,26 @@ export default function Home() {
           <Box id="fases-recentes-titulo" component="h2" sx={sectionTitleSx}>
             FASES RECENTES
           </Box>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+              gap: 3,
+            }}
+          >
+            <BossStage compact />
+            {status === 'ok' &&
+              stages.map((stage) => (
+                <StageCard key={stage.id} stage={stage} to={`/projetos?fase=${stage.id}`} />
+              ))}
+          </Box>
           {status === 'loading' && (
-            <Box className="blink" sx={{ textAlign: 'center', fontFamily: arcade.pixelFont, color: arcade.yellow }}>
+            <Box className="blink" sx={{ textAlign: 'center', fontFamily: arcade.pixelFont, color: arcade.yellow, mt: 2 }}>
               CARREGANDO...
             </Box>
           )}
           {status === 'error' && (
-            <Box sx={{ textAlign: 'center', color: arcade.textMuted }}>Fases indisponíveis no momento.</Box>
-          )}
-          {status === 'ok' && (
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
-                gap: 3,
-              }}
-            >
-              {stages.map((stage) => (
-                <StageCard key={stage.id} stage={stage} to={`/projetos?fase=${stage.id}`} />
-              ))}
-            </Box>
+            <Box sx={{ textAlign: 'center', color: arcade.textMuted, mt: 2 }}>Fases indisponíveis no momento.</Box>
           )}
         </Box>
       </Container>

@@ -10,23 +10,32 @@ export interface Experience {
   description: string
 }
 
-export const characterClass = { current: 'Dev Front-end', next: 'Backend' }
+export const characterClass = { current: 'Analista de Dados', next: 'Engenharia de Dados' }
 
 export const summary =
-  'Profissional de TI com experiência em suporte, infraestrutura e desenvolvimento web com React e TypeScript. ' +
-  'Hoje estou evoluindo para o backend, estudando Python, C# e SQL, e já automatizei processos no dia a dia do suporte. ' +
-  'Gosto de resolver problemas, trabalhar em equipe e entregar soluções simples e eficientes.'
+  'Analista de Dados & Sistemas: transformo dados do ERP em indicadores e decisões. ' +
+  'No dia a dia escrevo SQL avançado (CTEs, funções de janela, views) em SQL Server e PostgreSQL ' +
+  'e construo de ponta a ponta as aplicações que entregam esses números para as áreas de negócio, ' +
+  'do backend em Node.js à interface em Vue e React. ' +
+  'Venho do suporte e da infraestrutura, o que me deu visão de operação e foco em resolver o problema real de quem usa.'
 
 export const stats: Stat[] = [
-  { label: 'Front-end', value: 75 },
-  { label: 'Suporte / Infra', value: 85 },
-  { label: 'Backend', value: 45 },
-  { label: 'Banco de dados', value: 40 },
+  { label: 'SQL', value: 85 },
+  { label: 'Análise de dados', value: 80 },
+  { label: 'Backend', value: 65 },
+  { label: 'Front-end', value: 70 },
 ]
 
 export const experiences: Experience[] = [
   {
-    period: 'NOV 2024 — ATUAL',
+    period: 'SET 2025 — ATUAL',
+    role: 'Analista de Desenvolvimento de Sistemas',
+    company: 'ZAK',
+    description:
+      'Desenvolvo e mantenho um painel interno de BI e operação usado no dia a dia da empresa: consultas SQL avançadas sobre o ERP, indicadores financeiros, de estoque, vendas e CRM, controle de acesso e automações para as áreas de negócio.',
+  },
+  {
+    period: 'NOV 2024 — AGO 2025',
     role: 'Técnico de Apoio e Suporte I',
     company: 'TECHCERT',
     description:
@@ -69,6 +78,8 @@ export const certificates: string[] = [
   'Introdução ao Desenvolvimento Web',
   'Introdução a Lógica de Programação e Fundamentos JavaScript',
   'Desenvolvimento Web com HTML e CSS',
+  'Escola DNC · Programação de Computadores (2023–2024)',
+  'Dev Samurai · Programação de Computadores (2022–2023)',
 ]
 
 export const education = {

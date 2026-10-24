@@ -43,24 +43,36 @@ describe('Home', () => {
     mockedUseGithubRepos.mockReturnValue({ repos: [], status: 'loading', retry: vi.fn() })
     renderHome()
     expect(screen.getByRole('heading', { level: 1, name: 'RAMON MATHEUS' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /PRESS START/ })).toHaveAttribute('href', '/projetos')
+    expect(screen.getByRole('link', { name: /PRESS START/ })).toHaveAttribute('href', '/projetos#chefe')
+    expect(screen.getByText(/Analista de Dados & Sistemas · SQL/)).toBeInTheDocument()
   })
 
-  it('mostra no máximo 3 fases', () => {
+  it('mostra o chefe e 2 fases', () => {
     mockedUseGithubRepos.mockReturnValue({
       repos: Array.from({ length: 9 }, (_, i) => repo(i + 1)),
       status: 'ok',
       retry: vi.fn(),
     })
     renderHome()
-    expect(screen.getAllByTestId('stage-card')).toHaveLength(3)
-    screen.getAllByTestId('stage-card').forEach((card) => expect(card.getAttribute('href')).toMatch(/^\/projetos\?fase=\d+$/))
+    const cards = screen.getAllByTestId('stage-card')
+    expect(cards).toHaveLength(3)
+    expect(cards[0]).toHaveAttribute('href', '/projetos#chefe')
+    cards.slice(1).forEach((card) => expect(card.getAttribute('href')).toMatch(/^\/projetos\?fase=\d+$/))
   })
 
-  it('erro não quebra a home', () => {
+  it('erro mantém o chefe', () => {
     mockedUseGithubRepos.mockReturnValue({ repos: [], status: 'error', retry: vi.fn() })
     renderHome()
+    expect(screen.getByTestId('stage-card')).toHaveAttribute('href', '/projetos#chefe')
     expect(screen.getByText('Fases indisponíveis no momento.')).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 1, name: 'RAMON MATHEUS' })).toBeInTheDocument()
+  })
+
+  it('inventário de dados', () => {
+    mockedUseGithubRepos.mockReturnValue({ repos: [], status: 'loading', retry: vi.fn() })
+    renderHome()
+    expect(screen.getByText('SQL Server')).toBeInTheDocument()
+    expect(screen.getByText('PostgreSQL')).toBeInTheDocument()
+    expect(screen.getByText('Node.js')).toBeInTheDocument()
   })
 })

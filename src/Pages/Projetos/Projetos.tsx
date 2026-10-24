@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import BossStage from '../../components/BossStage/BossStage'
 import Footer from '../../components/Footer/Footer'
 import PixelBox from '../../components/arcade/PixelBox'
 import PixelButton from '../../components/arcade/PixelButton'
@@ -37,12 +38,31 @@ export default function Projetos() {
   }
 
   const stages = repos.map(toStage)
+  const landed = useRef(false)
+  const faseMatches = status === 'ok' && selectedId !== null && stages.some((s) => s.id === selectedId)
+  const hasFase = searchParams.get('fase') !== null
+
+  useEffect(() => {
+    if (landed.current || !hasFase || !faseMatches) return
+    landed.current = true
+    setActivations((n) => n + 1)
+  }, [hasFase, faseMatches])
+
   const selected = stages.find((s) => s.id === selectedId) ?? stages[0]
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Container maxWidth="lg" sx={{ flex: 1, py: 4 }}>
         <ScreenTitle title="SELECIONE A FASE" subtitle="Repositórios carregados direto do GitHub" />
+
+        <BossStage />
+
+        <Box
+          component="h2"
+          sx={{ fontFamily: arcade.pixelFont, fontSize: '0.9rem', color: arcade.textMuted, textAlign: 'center', mb: 3 }}
+        >
+          FASES DO GITHUB
+        </Box>
 
         {status === 'loading' && (
           <Box
